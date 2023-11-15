@@ -157,7 +157,7 @@ func DialContext(ctx context.Context, target string, opts ...DialOption) (conn *
 
 	cc.retryThrottler.Store((*retryThrottler)(nil))
 	cc.safeConfigSelector.UpdateConfigSelector(&defaultConfigSelector{nil})
-	cc.ctx, cc.cancel = context.WithCancel(context.Background())
+	cc.ctx, cc.cancel = context.WithCancel(ctx)
 	cc.exitIdleCond = sync.NewCond(&cc.mu)
 
 	disableGlobalOpts := false
