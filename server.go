@@ -2182,3 +2182,15 @@ func newHandlerQuota(n uint32) *atomicSemaphore {
 	a.n.Store(int64(n))
 	return a
 }
+
+// GetConnection gets the connection from the context.
+func GetConnection(ctx context.Context) net.Conn {
+	return transport.GetConnection(ctx)
+}
+
+// SetConnection adds the connection to the context to be able to get
+// information about the destination ip and port for an incoming RPC. This also
+// allows any unary or streaming interceptors to see the connection.
+func SetConnection(ctx context.Context, conn net.Conn) context.Context {
+	return transport.SetConnection(ctx, conn)
+}
