@@ -407,7 +407,7 @@ func (cs *clientStream) newAttemptLocked(isTransparent bool) (*csAttempt, error)
 		return nil, toRPCErr(err)
 	}
 	if err := cs.cc.ctx.Err(); err != nil {
-		fmt.Println("newAttemptLocked 410")
+		fmt.Println("newAttemptLocked 410"+err.Error())
 		return nil, ErrClientConnClosing
 	}
 
