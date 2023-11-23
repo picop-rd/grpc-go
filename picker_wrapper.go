@@ -20,6 +20,7 @@ package grpc
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"sync"
 
@@ -105,6 +106,7 @@ func (pw *pickerWrapper) pick(ctx context.Context, failfast bool, info balancer.
 		pw.mu.Lock()
 		if pw.done {
 			pw.mu.Unlock()
+			fmt.Println("pick 108")
 			return nil, balancer.PickResult{}, ErrClientConnClosing
 		}
 

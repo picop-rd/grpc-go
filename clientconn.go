@@ -407,6 +407,7 @@ func (cc *ClientConn) enterIdleMode() error {
 	defer cc.mu.Unlock()
 
 	if cc.conns == nil {
+		fmt.Println("enterIdleMode 410")
 		return ErrClientConnClosing
 	}
 	if cc.idlenessState != ccIdlenessStateActive {
@@ -788,6 +789,7 @@ func (cc *ClientConn) waitForResolvedAddrs(ctx context.Context) error {
 	case <-ctx.Done():
 		return status.FromContextError(ctx.Err()).Err()
 	case <-cc.ctx.Done():
+		fmt.Println("waitForResolvedAddrs 792")
 		return ErrClientConnClosing
 	}
 }
@@ -951,6 +953,7 @@ func (cc *ClientConn) newAddrConn(addrs []resolver.Address, opts balancer.NewSub
 	cc.mu.Lock()
 	defer cc.mu.Unlock()
 	if cc.conns == nil {
+		fmt.Println("newAddrConn 956")
 		return nil, ErrClientConnClosing
 	}
 
@@ -1256,6 +1259,7 @@ func (cc *ClientConn) Close() error {
 	cc.mu.Lock()
 	if cc.conns == nil {
 		cc.mu.Unlock()
+		fmt.Println("Close 1262")
 		return ErrClientConnClosing
 	}
 
@@ -1289,6 +1293,7 @@ func (cc *ClientConn) Close() error {
 	}
 
 	for ac := range conns {
+		fmt.Println("Close 1296")
 		ac.tearDown(ErrClientConnClosing)
 	}
 	cc.addTraceEvent("deleted")

@@ -21,6 +21,7 @@ package grpc
 import (
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"math"
 	"strconv"
@@ -390,6 +391,7 @@ func newClientStreamWithParams(ctx context.Context, desc *StreamDesc, cc *Client
 		go func() {
 			select {
 			case <-cc.ctx.Done():
+				fmt.Println("newClientStreamWithParams 393")
 				cs.finish(ErrClientConnClosing)
 			case <-ctx.Done():
 				cs.finish(toRPCErr(ctx.Err()))
@@ -405,6 +407,7 @@ func (cs *clientStream) newAttemptLocked(isTransparent bool) (*csAttempt, error)
 		return nil, toRPCErr(err)
 	}
 	if err := cs.cc.ctx.Err(); err != nil {
+		fmt.Println("newAttemptLocked 410")
 		return nil, ErrClientConnClosing
 	}
 
@@ -999,6 +1002,7 @@ func (cs *clientStream) finish(err error) {
 	if len(cs.binlogs) != 0 {
 		switch err {
 		case errContextCanceled, errContextDeadline, ErrClientConnClosing:
+			fmt.Println("finish 1005" + err.Error())
 			c := &binarylog.Cancel{
 				OnClientSide: true,
 			}
